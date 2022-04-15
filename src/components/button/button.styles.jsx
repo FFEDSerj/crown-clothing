@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const BaseButton = styled.button`
+  position: relative;
+  z-index: 1;
   min-width: 165px;
   width: auto;
   height: 50px;

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../contexts/cart.context";
 
@@ -9,25 +9,39 @@ import {
   CartDropdownContainer,
   EmptyMessage,
   CartItems,
+  CartBackdrop,
 } from "./cart-dropdown.styles.jsx";
 
 const CartDropdown = () => {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, setIsCartOpen } = useContext(CartContext);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
-  const goToCheckoutHandler = () => navigate("/checkout");
+  const goToCheckoutHandler = () => {
+    setIsCartOpen(false);
+    navigate("/checkout");
+  };
+
+  const handleCartBackdropClick = (e) => {
+    const isContains = dropdownRef.current.contains(e.target);
+    if (!isContains) {
+      setIsCartOpen(false);
+    }
+  };
 
   return (
-    <CartDropdownContainer>
-      <CartItems>
-        {cartItems.length ? (
-          cartItems.map((item) => <CartItem key={item.id} cartItem={item} />)
-        ) : (
-          <EmptyMessage>Your cart is empty</EmptyMessage>
-        )}
-      </CartItems>
-      <Button onClick={goToCheckoutHandler}>GO TO CHECKOUT</Button>
-    </CartDropdownContainer>
+    <CartBackdrop onClick={handleCartBackdropClick} className="backdrop">
+      <CartDropdownContainer ref={dropdownRef}>
+        <CartItems>
+          {cartItems.length ? (
+            cartItems.map((item) => <CartItem key={item.id} cartItem={item} />)
+          ) : (
+            <EmptyMessage>Your cart is empty</EmptyMessage>
+          )}
+        </CartItems>
+        <Button onClick={goToCheckoutHandler}>GO TO CHECKOUT</Button>
+      </CartDropdownContainer>
+    </CartBackdrop>
   );
 };
 

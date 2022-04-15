@@ -34,3 +34,10 @@ export const CartItems = styled.div`
   flex-direction: column;
   overflow-y: auto;
 `;
+
+export const CartBackdrop = styled.div`
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  inset: 0;
+`;
