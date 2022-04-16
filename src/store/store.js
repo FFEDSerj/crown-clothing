@@ -16,8 +16,14 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const middleWares = [process.env.NODE_ENV === "development" && logger].filter(
   Boolean
 );
+// chrome redux devtools
+const composedEnhancer =
+  (process.env.NODE_ENV !== "production" &&
+    window &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
 
-const composedEnhancers = compose(applyMiddleware(...middleWares));
+const composedEnhancers = composedEnhancer(applyMiddleware(...middleWares));
 
 export const store = createStore(
   persistedReducer,
