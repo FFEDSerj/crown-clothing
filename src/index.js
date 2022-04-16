@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 
 import App from "./App";
-import { CartContextProvider } from "./contexts/cart.context";
 
 import "./index.scss";
 
@@ -16,9 +15,7 @@ const root = createRoot(container);
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <CartContextProvider>
-        <App tab="home" />
-      </CartContextProvider>
+      <App tab="home" />
     </BrowserRouter>
   </Provider>
 );
